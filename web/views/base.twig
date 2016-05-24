@@ -24,6 +24,15 @@
     <!-- Custom styles for this template -->
     <link href="//getbootstrap.com/examples/cover/cover.css" rel="stylesheet">
 
+    <style>
+        body {
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="//getbootstrap.com/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="//getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
@@ -45,12 +54,12 @@
 
             <div class="masthead clearfix">
                 <div class="inner">
-                    <h3 class="masthead-brand">Cover</h3>
+                    <h3 class="masthead-brand">InSSpector</h3>
                     <nav>
                         <ul class="nav masthead-nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">Features</a></li>
-                            <li><a href="#">Contact</a></li>
+                            {% for server in app.servers %}
+                            <li class="active"><a href="#">{{ server.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </nav>
                 </div>
@@ -60,7 +69,7 @@
 
             <div class="mastfoot">
                 <div class="inner">
-                    <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                    <p>Thanks for Silex, Twig, <a href="http://getbootstrap.com">Bootstrap</a> as vendors, design by <a href="https://twitter.com/mdo">@mdo</a> | coded by Mikopet</p>
                 </div>
             </div>
 

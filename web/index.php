@@ -15,10 +15,12 @@ $app->get('/', function () use ($app) {
         'name' => "asd",
     ));
 });
-/*
+
 $app->get('/{server}', function ($server) use ($app) {
     $s=$app->escape($server);
-    return 'Hello '.$app['servers'][$s][name];
+    return $app['twig']->render('server.twig', array(
+        'server' => $app['servers'][$s],
+    ));
 });
-*/
+
 $app->run();

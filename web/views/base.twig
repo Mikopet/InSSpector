@@ -58,7 +58,7 @@
                     <nav>
                         <ul class="nav masthead-nav">
                             {% for key, server in app.servers %}
-                            <li class="active"><a href="{{ key }}">{{ server.name }}</a></li>
+                            <li{% if app.current_uri==key %} class="active"{% endif %}><a href="{{ key }}">{{ server.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </nav>

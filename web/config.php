@@ -1,6 +1,7 @@
 <?php
 
 $app['debug'] = true;
+$app['current_uri'] = trim($_SERVER['REQUEST_URI'], '/');
 
 $app['servers'] = array (
     'sd' => array(

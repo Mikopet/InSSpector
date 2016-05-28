@@ -1,14 +1,16 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php'; // loading vendors
 
+// Making te application, and register a few features
 $app = new Silex\Application();
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\AssetServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
-// Try to load YAML config, in other case Exception
+
+// Try to load YAML config, in other case catch Exception, and create flash array
 if (file_exists(__DIR__.'/config.yml')) {
     try {
         $app['config'] = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__.'/config.yml'));
@@ -19,19 +21,30 @@ if (file_exists(__DIR__.'/config.yml')) {
     $flashes[]=array("danger", "Unable to parse config.yml: file not found");
 }
 
+// if we have any messages, we create error/info popups
 foreach ($flashes as $flash) {
     $app['session']->getFlashBag()->add('flashMessages', $flash);
 }
 
+// few variables for templates
 $app['debug'] = true;
 $app['current_uri'] = trim($_SERVER['REQUEST_URI'], '/');
 
+////////////////////// ROUTING //////////////////////
+
+/*
+ * Index page
+ */
 $app->get('/', function () use ($app) {
-    return $app['twig']->render('index.twig', array(
-        'name' => "asd",
-    ));
+    return $app['twig']->render('index.twig', array());
 });
 
+/*
+ * Server page
+ * also searches the last shoot screen
+ *
+ * @param string $server
+ */
 $app->get('/{server}', function ($server) use ($app) {
     $s=$app->escape($server);
 
@@ -48,6 +61,12 @@ $app->get('/{server}', function ($server) use ($app) {
     ));
 });
 
+/*
+ * ScreenShot Page
+ *
+ * @param string $server
+ * @param string $shot
+ */
 $app->get('/{server}/{shot}', function ($server, $shot) use ($app) {
     return $app['twig']->render('shot.twig', array(
         'shot' => $app->escape($shot),
@@ -55,6 +74,12 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app) {
     ));
 })->bind('shots');
 
+/*
+ * Image Response
+ *
+ * @param string $server
+ * @param string $shot
+ */
 $app->get('/img/{server}/{shot}', function ($server, $shot) use ($app) {
     $file = basename(urldecode($app->escape($shot).".jpg"));
     $fileDir = $app['config']['servers'][$app->escape($server)]['shots_dir'];
@@ -70,4 +95,6 @@ $app->get('/img/{server}/{shot}', function ($server, $shot) use ($app) {
     return ($path);
 })->bind('images');
 
+
+// AAAAAAND IT'S RAN
 $app->run();

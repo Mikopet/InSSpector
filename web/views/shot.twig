@@ -1,0 +1,18 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <div class="inner cover" id="screenshot">
+        <img src="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="img-responsive">
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% if app.config.cover is defined %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('body').css('background-image', 'url({{ path('images', {'server': currentServer, 'shot': shot}) }})');
+        });
+        $("#screenshot").empty();
+    </script>
+    {% endif %}
+{% endblock %}

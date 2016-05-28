@@ -3,21 +3,26 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new Silex\Application();
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__.'/views',
+));
 // Try to load YAML config, in other case Exception
-$app['config']=array('servers'=>array('example'=>array('name'=>"Example Server")));
 if (file_exists(__DIR__.'/config.yml')) {
     try {
         $app['config'] = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__.'/config.yml'));
     } catch (Exception $e) {
-        $app['flash']['errors'] = "Unable to parse config.yml: ".$e->getMessage();
+        $flashes[]=array("danger", "Unable to parse config.yml: ".$e->getMessage());
     }
 } else {
-    $app['flash']['warnings'] = "Unable to parse config.yml: file not found";
+    $flashes[]=array("danger", "Unable to parse config.yml: file not found");
 }
 
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views',
-));
+foreach ($flashes as $flash) {
+    $app['session']->getFlashBag()->add('flashMessages', $flash);
+}
+
+
 
 
 

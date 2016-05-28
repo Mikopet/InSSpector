@@ -30,7 +30,20 @@ foreach ($flashes as $flash) {
 $app['debug'] = true;
 $app['current_uri'] = trim($_SERVER['REQUEST_URI'], '/');
 
-////////////////////// ROUTING //////////////////////
+////////////////////// FUNCTIONS //////////////////////
+$screenShot = function($server, $shot) use ($app) {
+    $file = basename(urldecode($shot.".jpg"));
+    $fileDir = $app['config']['servers'][$server]['shots_dir'];
+    return $fileDir .'/'. $file;
+};
+$lastShot = function($s) use ($app) {
+    $files = glob($app['config']['servers'][$s]['shots_dir']."/*.jpg");
+    $files = array_combine($files, array_map("filemtime", $files));
+    arsort($files);
+
+    return basename(key($files), ".jpg");
+};
+/////////////////////// ROUTING ///////////////////////
 
 /*
  * Index page
@@ -45,19 +58,13 @@ $app->get('/', function () use ($app) {
  *
  * @param string $server
  */
-$app->get('/{server}', function ($server) use ($app) {
+$app->get('/{server}', function ($server) use ($app, $lastShot) {
     $s=$app->escape($server);
-
-    $files = glob($app['config']['servers'][$s]['shots_dir']."/*.jpg");
-    $files = array_combine($files, array_map("filemtime", $files));
-    arsort($files);
-
-    $latest_file = basename(key($files), ".jpg");
 
     return $app['twig']->render('server.twig', array(
         'server'        => $app['config']['servers'][$s],
         'currentServer' => $s,
-        'lastShot'      => $latest_file
+        'lastShot'      => $lastShot($s)
     ));
 });
 
@@ -67,10 +74,17 @@ $app->get('/{server}', function ($server) use ($app) {
  * @param string $server
  * @param string $shot
  */
-$app->get('/{server}/{shot}', function ($server, $shot) use ($app) {
+$app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, $lastShot) {
+    $sh = $app->escape($shot);
+    $se = $app->escape($server);
+    $path = $screenShot($se, $sh);
+
     return $app['twig']->render('shot.twig', array(
-        'shot' => $app->escape($shot),
-        'currentServer' => $app->escape($server)
+        'shot'          => $sh,
+        'shotTime'     => filemtime($path),
+        'shotSize'     => filesize($path),
+        'currentServer' => $se,
+        'lastShot'      => $lastShot($se)
     ));
 })->bind('shots');
 
@@ -80,21 +94,14 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app) {
  * @param string $server
  * @param string $shot
  */
-$app->get('/img/{server}/{shot}', function ($server, $shot) use ($app) {
-    $file = basename(urldecode($app->escape($shot).".jpg"));
-    $fileDir = $app['config']['servers'][$app->escape($server)]['shots_dir'];
+$app->get('/img/{server}/{shot}', function ($server, $shot) use ($app, $screenShot) {
+    $sh = $app->escape($shot);
+    $se = $app->escape($server);
+    $path = $screenShot($se, $sh);
 
-    $path = $fileDir .'/'. $file;
-
-    if (file_exists($path))
-    {
-        $contents = file_get_contents($path);
-        header('Content-type: image/jpeg');
-        return $contents;
-    }
-    return ($path);
+    header('Content-Type: image/jpeg');
+    return file_exists($path)?file_get_contents($path):file_get_contents("assets/img_not_found.jpg");
 })->bind('images');
-
 
 // AAAAAAND IT'S RAN
 $app->run();

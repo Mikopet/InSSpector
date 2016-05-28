@@ -1,9 +1,24 @@
 {% extends 'base.twig' %}
 
 {% block content %}
+
+    <p class="lead">
+        <a href="{{ path('shots', {'server': currentServer, 'shot': lastShot}) }}" class="btn btn-lg btn-default">
+            <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+        </a>
+        <a href="{{ path('shots', {'server': currentServer, 'shot': lastShot}) }}" class="btn btn-lg btn-info">
+            Go to Last ScreenShot
+        </a>
+        <a href="{{ path('shots', {'server': currentServer, 'shot': lastShot}) }}" class="btn btn-lg btn-default">
+            <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+        </a>
+    </p>
+
     <div class="inner cover" id="screenshot">
-        <img src="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="img-responsive">
+        <img src="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="img-responsive center-block ss">
     </div>
+    <p class="lead"><strong>{{ shot|slice(0,-4) }}</strong> #{{ shot|slice(-4) }} @ {{ shotTime|date("Y.m.d - H:i:s") }} | {{ (shotSize/1024)|round }}kB</p>
+    <a href="{{ path('shots', {'server': currentServer, 'shot': lastShot}) }}" class="btn btn-lg btn-danger">To Shame Wall</a>
 {% endblock %}
 
 {% block javascripts %}

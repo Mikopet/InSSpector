@@ -57,7 +57,7 @@
                     <h3 class="masthead-brand">InSSpector</h3>
                     <nav>
                         <ul class="nav masthead-nav">
-                            {% for key, server in app.servers %}
+                            {% for key, server in app.config.servers %}
                             <li{% if app.current_uri==key %} class="active"{% endif %}><a href="{{ key }}">{{ server.name }}</a></li>
                             {% endfor %}
                         </ul>

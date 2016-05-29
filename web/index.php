@@ -41,6 +41,10 @@ $lastShot = function($s) use ($app) {
     $files = array_combine($files, array_map("filemtime", $files));
     arsort($files);
 
+    if (empty($files)) {
+        $app['session']->getFlashBag()->add('flashMessages', array('warning',"no images found"));
+    }
+
     return basename(key($files), ".jpg");
 };
 /////////////////////// ROUTING ///////////////////////

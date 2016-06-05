@@ -4,15 +4,27 @@
 
     {% if lastShot %}
     <p class="lead">
-        <a href="{{ path('shots', {'server': currentServer, 'shot': lastShot}) }}" class="btn btn-lg btn-default">
+        {% if nearShot.prev %}
+        <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}" class="btn btn-lg btn-default">
             <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
         </a>
+        {% else %}
+        <a href="" class="btn btn-lg disabled">
+            <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+        </a>
+        {% endif %}
         <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">
             Go to Last ScreenShot
         </a>
-        <a href="{{ path('shots', {'server': currentServer, 'shot': lastShot}) }}" class="btn btn-lg btn-default">
+        {% if nearShot.next %}
+        <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-default">
             <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
         </a>
+        {% else %}
+        <a href="" class="btn btn-lg disabled">
+            <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+        </a>
+        {% endif %}
     </p>
     {% endif %}
 

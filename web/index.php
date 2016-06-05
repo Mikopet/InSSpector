@@ -28,7 +28,7 @@ foreach ($flashes as $flash) {
 $app['debug'] = true;
 $app['current_uri'] = trim($_SERVER['REQUEST_URI'], '/');
 
-////////////////////// FUNCTIONS //////////////////////
+////////////////////// FUNCTIONS ////////////////////// TODO: refactor to objects
 $screenShot = function($server, $shot) use ($app) {
     $file = basename(urldecode($shot.".jpg"));
     $fileDir = $app['config']['servers'][$server]['shots_dir'];
@@ -44,6 +44,19 @@ $lastShot = function($s) use ($app) {
     }
 
     return basename(key($files), ".jpg");
+};
+$nearShot = function($server, $shot) use ($app) {
+    $files = glob($app['config']['servers'][$server]['shots_dir']."/*.jpg");
+    $files = array_combine($files, array_map("filemtime", $files));
+    arsort($files);
+    $names=array_keys($files);
+
+    $match = array_keys(array_filter($names, function($var) use ($shot) { return preg_match("/$shot/i", $var); }))[0];
+    
+    if ($match==0) { $next = null; } else { $next=basename($names[$match-1], ".jpg"); }
+    if ($match==count($names)-1) { $prev = null; } else { $prev=basename($names[$match+1], ".jpg"); }
+
+    return array('prev' => $prev, 'next' => $next);
 };
 /////////////////////// ROUTING ///////////////////////
 
@@ -76,7 +89,7 @@ $app->get('/{server}', function ($server) use ($app, $lastShot) {
  * @param string $server
  * @param string $shot
  */
-$app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, $lastShot) {
+$app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, $lastShot, $nearShot) {
     $sh = $app->escape($shot);
     $se = $app->escape($server);
     $path = $screenShot($se, $sh);
@@ -96,10 +109,11 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
 
     return $app['twig']->render('shot.twig', array(
         'shot'          => $sh,
-        'shotTime'     => filemtime($path),
-        'shotSize'     => filesize($path),
+        'shotTime'      => filemtime($path),
+        'shotSize'      => filesize($path),
         'currentServer' => $se,
-        'lastShot'      => $lastShot($se)
+        'lastShot'      => $lastShot($se),
+        'nearShot'      => $nearShot($se, $sh)
     ));
 })->bind('shots');
 

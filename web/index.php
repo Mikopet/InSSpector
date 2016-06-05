@@ -6,14 +6,12 @@ require_once __DIR__.'/../vendor/autoload.php'; // loading vendors
 $app = new Silex\Application();
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\AssetServiceProvider());
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views',
-));
+$app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../views'));
 
 // Try to load YAML config, in other case catch Exception, and create flash array
-if (file_exists(__DIR__.'/config.yml')) {
+if (file_exists(__DIR__ . '/../config.yml')) {
     try {
-        $app['config'] = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__.'/config.yml'));
+        $app['config'] = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../config.yml'));
     } catch (Exception $e) {
         $flashes[]=array("danger", "Unable to parse config.yml: ".$e->getMessage());
     }

@@ -41,19 +41,23 @@
 
             {% for alert in app.session.flashbag.get('flashMessages') %}
                 <div class="alert alert-{{ alert[0] }} alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <strong>{{ alert[0]|capitalize }}!</strong> {{ alert[1] }}
                 </div>
             {% endfor %}
 
             <div class="masthead clearfix">
                 <div class="inner">
-                    <h3 class="masthead-brand"><a href="{{ asset() }}">InSSpector</a></h3>
+                    <h3 class="masthead-brand"><a href="{{ path('home') }}">InSSpector</a></h3>
                     <nav>
                         <ul class="nav masthead-nav">
                             {% if app.config is defined %}
                                 {% for key, server in app.config.servers %}
-                                    <li{% if currentServer is defined and currentServer==key %} class="active"{% endif %}><a href="{{ asset(key) }}">{{ server.name }}</a></li>
+                                    <li{% if currentServer is defined and currentServer==key %} class="active"{% endif %}>
+                                        <a href="{{ asset(key) }}">{{ server.name }}</a>
+                                    </li>
                                 {% endfor %}
                             {% endif %}
                         </ul>
@@ -65,7 +69,12 @@
 
             <div class="mastfoot">
                 <div class="inner">
-                    <p>Thanks for <a href="//silex.sensiolabs.org">Silex</a>, <a href="//twig.sensiolabs.org">Twig</a>, <a href="//getbootstrap.com">Bootstrap</a> as vendors, design by <a href="//twitter.com/mdo">@mdo</a> | coded by <a href="//github.com/Mikopet">Mikopet</a></p>
+                    <p>
+                        Thanks for <a href="//silex.sensiolabs.org">Silex</a>,
+                        <a href="//twig.sensiolabs.org">Twig</a>, <a href="//getbootstrap.com">Bootstrap</a> as vendors,
+                        design by <a href="//twitter.com/mdo">@mdo</a> |
+                        coded by <a href="//github.com/Mikopet">Mikopet</a>
+                    </p>
                 </div>
             </div>
 

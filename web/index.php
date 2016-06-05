@@ -42,7 +42,7 @@ $lastShot = function($s) use ($app) {
     arsort($files);
 
     if (empty($files)) {
-        $app['session']->getFlashBag()->add('flashMessages', array('warning',"no images found"));
+        $app['session']->getFlashBag()->add('flashMessages', array('warning',"No images found"));
     }
 
     return basename(key($files), ".jpg");
@@ -54,7 +54,7 @@ $lastShot = function($s) use ($app) {
  */
 $app->get('/', function () use ($app) {
     return $app['twig']->render('index.twig', array());
-});
+})->bind('home');
 
 /*
  * Server page
@@ -70,7 +70,7 @@ $app->get('/{server}', function ($server) use ($app, $lastShot) {
         'currentServer' => $s,
         'lastShot'      => $lastShot($s)
     ));
-});
+})->bind('server');
 
 /*
  * ScreenShot Page
@@ -82,6 +82,19 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
     $sh = $app->escape($shot);
     $se = $app->escape($server);
     $path = $screenShot($se, $sh);
+    if ($sh=="last") {
+        $sh=$lastShot($se);
+        if ($sh) {
+            return $app->redirect(
+                $app['url_generator']->generate('shots', array(
+                    'server' => $se,
+                    'shot' => $sh
+                ))
+            );
+        } else {
+            return $app->redirect($app['url_generator']->generate('home'));
+        }
+    }
 
     return $app['twig']->render('shot.twig', array(
         'shot'          => $sh,

@@ -51,7 +51,11 @@ $nearShot = function($server, $shot) use ($app) {
     arsort($files);
     $names=array_keys($files);
 
-    $match = array_keys(array_filter($names, function($var) use ($shot) { return preg_match("/$shot/i", $var); }))[0];
+    $match = array_keys(array_filter($names, function($var) use ($shot) {
+        $name=array_pop(explode('/', $var));
+        return ($shot==basename($name, ".jpg"));
+    }))[0];
+
 
     if (isset($match)) {
         if ($match!=0) { $next=basename($names[$match-1], ".jpg"); }

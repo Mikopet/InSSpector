@@ -2,44 +2,46 @@
 
 {% block content %}
 
-    {% if lastShot %}
-    <p class="lead">
-        {% if nearShot.prev %}
-        <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}" class="btn btn-lg btn-default">
-            <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-        </a>
-        {% else %}
-        <a href="" class="btn btn-lg disabled">
-            <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-        </a>
-        {% endif %}
-        <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">
-            Go to Last ScreenShot
-        </a>
-        {% if nearShot.next %}
-        <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-default">
-            <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-        </a>
-        {% else %}
-        <a href="" class="btn btn-lg disabled">
-            <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-        </a>
-        {% endif %}
-    </p>
-    {% endif %}
-
     <div class="inner cover" id="screenshot">
-        <img src="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="img-responsive center-block ss">
-    </div>
-    <p class="lead">
-        <strong>{{ shot|slice(0,-4) }}</strong>
-        #{{ shot|slice(-4) }} @ {{ shotTime|date("Y.m.d - H:i:s") }} |
-        {{ (shotSize/1024)|round }}kB
-    </p>
+        {% if lastShot %}
+            <p class="lead ss-nav">
+                {% if nearShot.prev %}
+                    <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}" class="btn btn-lg btn-default">
+                        <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    </a>
+                {% else %}
+                    <a href="" class="btn btn-lg disabled">
+                        <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    </a>
+                {% endif %}
+                <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">
+                    Go to Last ScreenShot
+                </a>
+                {% if nearShot.next %}
+                    <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-default">
+                        <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    </a>
+                {% else %}
+                    <a href="" class="btn btn-lg disabled">
+                        <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    </a>
+                {% endif %}
+            </p>
+        {% endif %}
 
-    {% if app.config.servers[currentServer].shame_dir is defined %}
-    <a href="/shame" class="btn btn-lg btn-danger">Save to shame directory</a>
-    {% endif %}
+        <img src="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="img-responsive center-block ss">
+
+        <p class="lead ss-feature">
+            {% if app.config.servers[currentServer].shame_dir is defined %}
+                <a href="/shame" class="btn btn-lg btn-danger">Save to shame directory</a><br/>
+            {% endif %}
+            {% if shotTime %}
+                <strong>{{ shot|slice(0,-4) }}</strong>
+                #{{ shot|slice(-4) }} @ {{ shotTime|date("Y.m.d - H:i:s") }} |
+                {{ (shotSize/1024)|round }}kB
+            {% endif %}
+        </p>
+    </div>
 
 {% endblock %}
 

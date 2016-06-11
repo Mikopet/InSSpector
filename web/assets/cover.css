@@ -59,7 +59,7 @@ body {
 
 /* Padding for spacing */
 .inner {
-  padding: 30px;
+  padding: 5px;
 }
 
 
@@ -167,5 +167,22 @@ body {
 }
 
 .ss {
-  max-height: 300px;
+  min-width: 100%;
+}
+
+.ss-nav {
+  position:relative;
+  bottom:-70px;
+  background-color: dimgrey;
+  opacity: 0.8;
+  padding: 2px;
+  margin: 10px;
+}
+.ss-feature {
+  position:relative;
+  bottom:80px;
+  background-color: dimgrey;
+  opacity: 0.8;
+  padding: 2px;
+  margin: 0;
 }

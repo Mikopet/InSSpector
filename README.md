@@ -16,12 +16,12 @@ composer install
 
 Okay, we have the working code now, set up the webserver:
 ### Apache
-need to enable mod_rewrite. I dont use apache, so it's not ready yet
+need to enable mod\_rewrite. I dont use apache, so it's not implemented yet, but look the config [here](http://silex.sensiolabs.org/doc/master/web_servers.html#apache)
 ### nginx
 Use default [Silex config](http://silex.sensiolabs.org/doc/master/web_servers.html#nginx)
 
 ## Configuring
-Make a `config.yml` in the  web directory, and fill out like this:
+Make a `config.yml` in the app directory (near composer files), and fill out like this:
 
 ```yaml
 servers:
@@ -33,4 +33,14 @@ servers:
         shots_dir: /path/to/other/shots/
 ```
 
-Troubleshoot: if doesnt work, check permissions on dir, and files
+Troubleshoot: if doesn't work, check permissions on dir, and files
+
+## Additional features (not fully implemented)
+
+In config YAML you can use a few plus features, like image covering, or shame wall.
+For this, you can simply define
+`cover: true`
+or 
+`shame_wall: true`
+
+you need to add a path for your servers, the shame\_dir like you did with shots\_dir

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+
 require_once __DIR__.'/../vendor/autoload.php'; // loading vendors
 
 // Making te application, and register a few features
@@ -138,8 +140,13 @@ $app->get('/img/{server}/{shot}', function ($server, $shot) use ($app, $screenSh
     $se = $app->escape($server);
     $path = $screenShot($se, $sh);
 
-    header('Content-Type: image/jpeg');
-    return file_exists($path)?file_get_contents($path):file_get_contents("assets/img_not_found.jpg");
+    $response = new Response();
+    $response->setContent(file_exists($path)?file_get_contents($path):file_get_contents("assets/img_not_found.jpg"));
+    $response->setStatusCode(Response::HTTP_OK);
+    $response->headers->set('Content-Type', 'image/jpeg');
+    $response->headers->set('Content-Length: ', (string)(filesize($path)));
+
+    $response->send();
 })->bind('images');
 
 // AAAAAAND IT'S RAN

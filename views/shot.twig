@@ -2,9 +2,9 @@
 
 {% block content %}
 
-    <div class="inner cover" id="screenshot">
+    <div class="inner cover img-responsive center-block ss" id="screenshot" style="background-image: url({{ path('images', {'server': currentServer, 'shot': shot}) }})">
         {% if lastShot %}
-            <p class="lead ss-nav">
+            <p class="ss-nav center-block">
                 {% if nearShot.prev %}
                     <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}" class="btn btn-lg btn-default">
                         <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
@@ -14,8 +14,13 @@
                         <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
                     </a>
                 {% endif %}
+                <a href="{{ path('shots', {'server': currentServer, 'shot': "first"}) }}" class="btn btn-lg btn-info">
+                    <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                </a>
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">
-                    Go to Last ScreenShot
+                    <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                 </a>
                 {% if nearShot.next %}
                     <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-default">
@@ -29,19 +34,19 @@
             </p>
         {% endif %}
 
-        <img src="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="img-responsive center-block ss">
-
-        <p class="lead ss-feature">
+        <p class="ss-feature center-block">
             {% if app.config.servers[currentServer].shame_dir is defined %}
-                <a href="/shame" class="btn btn-lg btn-danger">Save to shame directory</a><br/>
-            {% endif %}
-            {% if shotTime %}
-                <strong>{{ shot|slice(0,-4) }}</strong>
-                #{{ shot|slice(-4) }} @ {{ shotTime|date("Y.m.d - H:i:s") }} |
-                {{ (shotSize/1024)|round }}kB
+                <a href="/shame" class="btn btn-lg btn-danger">Save to shames</a><br/>
             {% endif %}
         </p>
     </div>
+    <p clsss="lead">
+        {% if shotTime %}
+            <strong>{{ shot|slice(0,-4) }}</strong>
+            #{{ shot|slice(-4) }} @ {{ shotTime|date("Y.m.d - H:i:s") }} |
+            {{ (shotSize/1024)|round }}kB
+        {% endif %}
+    </p>
 
 {% endblock %}
 

@@ -34,10 +34,14 @@ $screenShot = function($server, $shot) use ($app) {
     $fileDir = $app['config']['servers'][$server]['shots_dir'];
     return $fileDir .'/'. $file;
 };
-$lastShot = function($s) use ($app) {
+$lastShot = function($s, $direction=false) use ($app) {
     $files = glob($app['config']['servers'][$s]['shots_dir']."/*.jpg");
     $files = array_combine($files, array_map("filemtime", $files));
-    arsort($files);
+    if ($direction=='first') {
+        asort($files);
+    } else {
+        arsort($files);
+    }
 
     if (empty($files)) {
         $app['session']->getFlashBag()->add('flashMessages', array('warning',"No images found"));
@@ -99,8 +103,8 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
     $sh = $app->escape($shot);
     $se = $app->escape($server);
     $path = $screenShot($se, $sh);
-    if ($sh=="last") {
-        $sh=$lastShot($se);
+    if ($sh=="last" || $sh=="first") {
+        $sh=$lastShot($se, $sh);
         if ($sh) {
             return $app->redirect(
                 $app['url_generator']->generate('shots', array(

@@ -32,7 +32,7 @@ $app['current_uri'] = trim($_SERVER['REQUEST_URI'], '/');
 
 ////////////////////// FUNCTIONS ////////////////////// TODO: refactor to objects
 $screenShot = function ($server, $shot) use ($app) {
-    $file = basename(urldecode($shot . ".jpg"));
+    $file = basename(urldecode(htmlspecialchars_decode($shot) . ".jpg"));
     $fileDir = $app['config']['servers'][$server]['shots_dir'];
     return $fileDir . '/' . $file;
 };
@@ -115,7 +115,7 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
             return $app->redirect(
                 $app['url_generator']->generate('shots', array(
                     'server' => $se,
-                    'shot'   => $sh
+                    'shot'   => htmlspecialchars_decode($sh)
                 ))
             );
         } else {
@@ -124,7 +124,7 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
     }
 
     return $app['twig']->render('shot.twig', array(
-        'shot'          => $sh,
+        'shot'          => htmlspecialchars_decode($sh),
         'shotTime'      => filemtime($path),
         'shotSize'      => filesize($path),
         'currentServer' => $se,

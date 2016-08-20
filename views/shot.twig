@@ -15,12 +15,13 @@
                     </a>
                 {% endif %}
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "first"}) }}" class="btn btn-lg btn-info">
-                    <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                </a>
+                <a href="{{ path('images', {'server': currentServer, 'shot': nearShot.current}) }}" class="btn btn-lg btn-warning hidden-xs" target="_blank">
+                    <span class="glyphicon glyphicon glyphicon-new-window" aria-hidden="true"></span>
                 </a>
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">
-                    <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </a>
                 {% if nearShot.next %}
                     <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-default">

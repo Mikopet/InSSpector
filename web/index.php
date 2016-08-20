@@ -59,7 +59,7 @@ $nearShot = function($server, $shot) use ($app) {
 
     $match = array_keys(array_filter($names, function($var) use ($shot) {
         $name=array_pop(explode('/', $var));
-        return ($shot==basename($name, ".jpg"));
+        return (htmlspecialchars_decode($shot) == basename($name, ".jpg"));
     }))[0];
 
 
@@ -136,15 +136,13 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
  * @param string $shot
  */
 $app->get('/img/{server}/{shot}', function ($server, $shot) use ($app, $screenShot) {
-    $sh = $app->escape($shot);
-    $se = $app->escape($server);
-    $path = $screenShot($se, $sh);
+    $path = $screenShot($server, htmlspecialchars_decode($shot));
 
     $response = new Response();
     $response->setContent(file_exists($path)?file_get_contents($path):file_get_contents("assets/img_not_found.jpg"));
     $response->setStatusCode(Response::HTTP_OK);
     $response->headers->set('Content-Type', 'image/jpeg');
-    $response->headers->set('Content-Length: ', (string)(filesize($path)));
+    $response->headers->set('Content-Length', filesize($path));
 
     $response->send();
 })->bind('images');

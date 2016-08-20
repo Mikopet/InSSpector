@@ -2,7 +2,8 @@
 
 {% block content %}
 
-    <div class="inner cover img-responsive center-block ss" id="screenshot" style="background-image: url({{ path('images', {'server': currentServer, 'shot': shot}) }})">
+    <div class="inner cover img-responsive center-block ss" id="screenshot"
+         style="background-image: url({{ path('images', {'server': currentServer, 'shot': shot}) }})">
         {% if lastShot %}
             <p class="ss-nav center-block">
                 {% if nearShot.prev %}
@@ -17,7 +18,7 @@
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "first"}) }}" class="btn btn-lg btn-info">
                     <span class="glyphicon glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                 </a>
-                <a href="{{ path('images', {'server': currentServer, 'shot': nearShot.current}) }}" class="btn btn-lg btn-warning hidden-xs" target="_blank">
+                <a href="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="btn btn-lg btn-warning hidden-xs" target="_blank">
                     <span class="glyphicon glyphicon glyphicon-new-window" aria-hidden="true"></span>
                 </a>
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">

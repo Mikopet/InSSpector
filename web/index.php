@@ -66,10 +66,9 @@ $nearShot = function($server, $shot) use ($app) {
     if (isset($match)) {
         if ($match!=0) { $next=basename($names[$match-1], ".jpg"); }
         if ($match!=count($names)-1) { $prev=basename($names[$match+1], ".jpg"); }
-        $current=basename($names[$match], ".jpg");
     }
 
-    return array('prev' => $prev, 'next' => $next, 'current' => $current);
+    return array('prev' => $prev, 'next' => $next);
 };
 /////////////////////// ROUTING ///////////////////////
 

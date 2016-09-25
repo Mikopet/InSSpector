@@ -53,12 +53,22 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% if app.config.cover is defined %}
     <script type="text/javascript">
+    {% if nearShot.prev %}
+    $("#screenshot").on("swiperight",function(){
+        window.location.href = "{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}";
+    });
+    {% endif %}
+    {% if nearShot.next %}
+    $("#screenshot").on("swipeleft",function(){
+        window.location.href = "{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}";
+    });
+    {% endif %}
+    {% if app.config.cover is defined %}
         $(document).ready(function() {
             $('body').css('background-image', 'url({{ path('images', {'server': currentServer, 'shot': shot}) }})');
         });
         $("#screenshot").empty();
-    </script>
     {% endif %}
+    </script>
 {% endblock %}

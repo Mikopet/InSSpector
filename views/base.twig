@@ -59,7 +59,7 @@
 
                 {% block content "" %}
 
-                <div class="mastfoot">
+                <div class="mastfoot hidden-xs">
                     <div class="inner">
                         <p>
                             Thanks for <a href="//silex.sensiolabs.org">Silex</a>,
@@ -78,6 +78,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="//getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script type="text/javascript">$(document).bind("mobileinit",function(){$.extend(  $.mobile , {autoInitializePage: false})});</script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="//getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <script src="//getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     {% block javascripts "" %}

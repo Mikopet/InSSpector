@@ -32,7 +32,7 @@ $app['current_uri'] = trim($_SERVER['REQUEST_URI'], '/');
 
 ////////////////////// FUNCTIONS ////////////////////// TODO: refactor to objects
 $screenShot = function ($server, $shot) use ($app) {
-    $file = basename(urldecode(htmlspecialchars_decode($shot) . ".jpg"));
+    $file = basename(htmlspecialchars_decode($shot) . ".jpg");
     $fileDir = $app['config']['servers'][$server]['shots_dir'];
     return $fileDir . '/' . $file;
 };
@@ -109,6 +109,7 @@ $app->get('/{server}/{shot}', function ($server, $shot) use ($app, $screenShot, 
     $sh = $app->escape($shot);
     $se = $app->escape($server);
     $path = $screenShot($se, $sh);
+
     if ($sh == "last" || $sh == "first") {
         $sh = $lastShot($se, $sh);
         if ($sh) {

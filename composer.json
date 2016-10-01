@@ -5,6 +5,9 @@
         "symfony/yaml": "3.1.*",
         "symfony/asset": "3.1.*"
     },
+    "require-dev": {
+        "symfony/var-dumper": "3.1.*"
+    },
     "autoload": {
         "psr-0": {
             "InSSpector": "lib/"

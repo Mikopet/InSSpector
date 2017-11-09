@@ -2,6 +2,11 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
+$filename = __DIR__.preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+if (php_sapi_name() === 'cli-server' && is_file($filename)) {
+    return false;
+}
+
 require_once __DIR__ . '/../vendor/autoload.php'; // loading vendors
 
 // Making te application, and register a few features
@@ -9,6 +14,8 @@ $app = new Silex\Application();
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\AssetServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../views'));
+
+$flashes = [];
 
 // Try to load YAML config, in other case catch Exception, and create flash array
 if (file_exists(__DIR__ . '/../config.yml')) {

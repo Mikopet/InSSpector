@@ -6,10 +6,10 @@
         <p class="lead">What you want to see? Last shots? A shots of a specified player? Maybe regex?</p>
         {% if lastShot %}
         <p class="lead">
-            <a href="{{ path('shots', {'server': currentServer, 'shot': "first"}) }}" class="btn btn-lg btn-default">
+            <a href="{{ path('shots', {'server': currentServer, 'shot': "first"}) }}" class="btn btn-lg btn-secondary">
                 First ScreenShot
             </a>
-            <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-default">
+            <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-secondary">
                 Last ScreenShot
             </a>
         </p>

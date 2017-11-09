@@ -2,41 +2,41 @@
 
 {% block content %}
 
-    <div class="inner cover img-responsive center-block ss" id="screenshot"
+    <div class="inner cover img-responsive mx-auto ss" id="screenshot"
          style="background-image: url({{ path('images', {'server': currentServer, 'shot': shot}) }})">
         {% if lastShot %}
-            <p class="ss-nav center-block">
+            <p class="ss-nav mx-auto">
                 {% if nearShot.prev %}
-                    <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}" class="btn btn-lg btn-default">
-                        <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.prev}) }}" class="btn btn-lg btn-secondary">
+                        &#x25C4;
                     </a>
                 {% else %}
                     <a href="" class="btn btn-lg disabled">
-                        <span class="glyphicon glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                        &#x25C4;
                     </a>
                 {% endif %}
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "first"}) }}" class="btn btn-lg btn-info">
-                    <span class="glyphicon glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                    &#x23EA;
                 </a>
                 <a href="{{ path('images', {'server': currentServer, 'shot': shot}) }}" class="btn btn-lg btn-warning hidden-xs" target="_blank">
-                    <span class="glyphicon glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                    &#x25B2;
                 </a>
                 <a href="{{ path('shots', {'server': currentServer, 'shot': "last"}) }}" class="btn btn-lg btn-info">
-                    <span class="glyphicon glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    &#x23E9;
                 </a>
                 {% if nearShot.next %}
-                    <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-default">
-                        <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    <a href="{{ path('shots', {'server': currentServer, 'shot': nearShot.next}) }}" class="btn btn-lg btn-secondary">
+                        &#x25BA;
                     </a>
                 {% else %}
                     <a href="" class="btn btn-lg disabled">
-                        <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                        &#x25BA;
                     </a>
                 {% endif %}
             </p>
         {% endif %}
 
-        <p class="ss-feature center-block">
+        <p class="ss-feature mx-auto">
             {% if app.config.servers[currentServer].shame_dir is defined %}
                 <a href="/shame" class="btn btn-lg btn-danger">Save to shames</a><br/>
             {% endif %}
